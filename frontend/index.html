@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NEURO CHECKER AI · Brain Tumor Detection</title>
+<link rel="stylesheet" href="/static/style.css?v=2" /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="mri-bg"></div>
+<!-- Top navigation -->
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 2a7 7 0 0 0-7 7c0 2.4 1.2 4.5 3 5.7V19a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4.3c1.8-1.2 3-3.3 3-5.7a7 7 0 0 0-7-7z"/>
+        <path d="M9 12h6M12 9v6"/>
+      </svg>
+    </div>
+    <div>
+      <h1>NEURO CHECKER <span>AI</span></h1>
+      <p>DenseNet121 · Dual-CBAM Attention</p>
+    </div>
+  </div>
+  <div class="status-pill">
+    <span class="dot"></span> System Online
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Left: Upload panel -->
+  <section class="panel upload-panel">
+    <div class="panel-header">
+      <h2>MRI Scan Upload</h2>
+      <p>Upload a single axial brain MRI slice (JPG / PNG)</p>
+    </div>
+
+    <label for="fileInput" class="dropzone" id="dropzone">
+      <input type="file" id="fileInput" accept="image/*" hidden />
+      <div class="dropzone-inner" id="dropzoneInner">
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 16V4m0 0L8 8m4-4l4 4"/>
+          <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+        </svg>
+        <p class="dropzone-title">Drag &amp; drop MRI image here</p>
+        <p class="dropzone-sub">or <span>browse files</span></p>
+      </div>
+    </label>
+
+    <div class="preview-wrap hidden" id="previewWrap">
+      <img id="previewImg" alt="MRI Preview"/>
+      <button class="btn-clear" id="clearBtn" title="Remove image">✕</button>
+    </div>
+
+    <button class="btn-primary" id="analyzeBtn" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m20 20-3.5-3.5"/>
+      </svg>
+      Analyze Scan
+    </button>
+
+    <div class="info-note">
+      <strong>Note:</strong> For research use only.
+    </div>
+  </section>
+
+  <!-- Right: Results panel -->
+  <section class="panel results-panel">
+    <div class="panel-header">
+      <h2>Diagnostic Report</h2>
+      <p>AI-assisted classification with attention heatmap</p>
+    </div>
+
+    <!-- Idle state -->
+    <div class="idle-state" id="idleState">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M9 3H5a2 2 0 0 0-2 2v4m0 6v4a2 2 0 0 0 2 2h4m6 0h4a2 2 0 0 0 2-2v-4m0-6V5a2 2 0 0 0-2-2h-4"/>
+        <path d="M9 12h6"/>
+      </svg>
+      <p>Awaiting scan. Upload an MRI image to generate a report.</p>
+    </div>
+
+    <!-- Loading state -->
+    <div class="loading-state hidden" id="loadingState">
+      <div class="spinner"></div>
+      <p>Analyzing scan with DenseNet121…</p>
+      <span>Running dual-CBAM attention inference</span>
+    </div>
+
+    <!-- Result state -->
+    <div class="result-state hidden" id="resultState">
+
+      <div class="diagnosis-card" id="diagnosisCard">
+        <div class="diagnosis-label">Predicted Class</div>
+        <div class="diagnosis-name" id="diagnosisName">—</div>
+        <div class="confidence-bar-wrap">
+          <div class="confidence-bar" id="confidenceBar"></div>
+        </div>
+        <div class="confidence-text">
+          Confidence: <span id="confidenceVal">—</span>
+        </div>
+      </div>
+
+      <div class="images-grid">
+        <div class="img-box">
+          <span class="img-tag">Input MRI</span>
+          <img id="resultOriginal" alt="Input MRI"/>
+        </div>
+        <div class="img-box">
+          <span class="img-tag hot">Attention (Grad-CAM)</span>
+          <img id="resultGradcam" alt="Grad-CAM"/>
+        </div>
+      </div>
+
+      <div class="probs-section">
+        <h3>Class Probabilities</h3>
+        <div class="probs-list" id="probsList"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>© 2025 NEURO CHECKER AI · Built with DenseNet121 + CBAM Attention · TensorFlow / FastAPI</p>
+</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
