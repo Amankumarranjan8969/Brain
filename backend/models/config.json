@@ -1,0 +1,8 @@
+{
+  "img_size": 224,
+  "cbam_ratio": 8,
+  "cbam_kernel": 7,
+  "dropout_rate": 0.5,
+  "num_classes": 4,
+  "label_smoothing": 0.1
+}
